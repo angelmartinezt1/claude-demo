@@ -2,25 +2,43 @@
   "mcpServers": {
     "context7": {
       "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp@latest"]
+      "args": [
+        "-y",
+        "@upstash/context7-mcp@latest"
+      ]
     },
     "sequentialthinking": {
       "command": "docker",
-      "args": ["run", "--rm", "-i", "mcp/sequentialthinking"]
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "mcp/sequentialthinking"
+      ]
     },
     "playwright": {
       "command": "npx",
-      "args": ["@playwright/mcp@latest"]
+      "args": [
+        "@playwright/mcp@latest"
+      ]
     },
     "concurrent-browser": {
       "command": "npx",
-      "args": ["concurrent-browser-mcp", "--max-instances", "20"]
+      "args": [
+        "concurrent-browser-mcp",
+        "--max-instances",
+        "20"
+      ]
     },
     "shadcn": {
       "description": "",
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "shadcn@canary", "registry:mcp"],
+      "args": [
+        "-y",
+        "shadcn@canary",
+        "registry:mcp"
+      ],
       "env": {
         "REGISTRY_URL": "https://alpine-registry.vercel.app/r/registry.json"
       }
@@ -28,7 +46,9 @@
     "shadcn-components": {
       "type": "stdio",
       "command": "npx",
-      "args": ["@jpisnice/shadcn-ui-mcp-server"]
+      "args": [
+        "@jpisnice/shadcn-ui-mcp-server"
+      ]
     },
     "MongoDB": {
       "command": "docker",
@@ -39,6 +59,13 @@
         "-e",
         "MDB_MCP_CONNECTION_STRING=mongodb://host.docker.internal:27017/uptodateai",
         "mongodb/mongodb-mcp-server:latest"
+      ]
+    },
+    "memory": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
       ]
     }
   }
