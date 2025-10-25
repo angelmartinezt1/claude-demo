@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, UTC
 from fastapi import status
 
 
@@ -34,9 +34,9 @@ def test_ping_endpoint_timestamp_is_recent(client):
 
     timestamp_str = data["timestamp"].replace("Z", "+00:00")
     timestamp = datetime.fromisoformat(timestamp_str)
-    now = datetime.utcnow()
+    now = datetime.now(UTC)
 
-    time_diff = abs((now - timestamp.replace(tzinfo=None)).total_seconds())
+    time_diff = abs((now - timestamp).total_seconds())
     assert time_diff < 5, f"Timestamp is {time_diff}s old"
 
 
@@ -72,5 +72,5 @@ def test_ping_endpoint_multiple_calls(client):
 
     # All timestamps should be recent
     for ts in timestamps:
-        time_diff = abs((datetime.utcnow() - ts.replace(tzinfo=None)).total_seconds())
+        time_diff = abs((datetime.now(UTC) - ts).total_seconds())
         assert time_diff < 10

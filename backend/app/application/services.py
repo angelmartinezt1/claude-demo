@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, UTC
 from app.domain.models import HealthCheck, HealthStatus, PingResponse
 from app.config import Settings
 
@@ -24,7 +24,7 @@ class HealthService:
         # Future: Add database connectivity, external service checks, etc.
         return HealthCheck(
             status=HealthStatus.HEALTHY,
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(UTC),
             version=self._settings.app_version,
             environment=self._settings.environment
         )
@@ -41,5 +41,5 @@ class PingService:
         """
         return PingResponse(
             message="pong",
-            timestamp=datetime.utcnow()
+            timestamp=datetime.now(UTC)
         )

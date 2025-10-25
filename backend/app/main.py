@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
@@ -10,6 +11,25 @@ from app.infrastructure.middleware.exception_handlers import (
     validation_exception_handler,
     generic_exception_handler
 )
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Lifespan event handler for startup and shutdown.
+
+    Args:
+        app: FastAPI application instance
+    """
+    # Startup
+    settings = get_settings()
+    print(f"Starting {settings.app_name} v{settings.app_version}")
+    print(f"Environment: {settings.environment}")
+    print(f"Debug mode: {settings.debug}")
+
+    yield
+
+    # Shutdown
+    print("Shutting down application...")
 
 
 def create_application() -> FastAPI:
@@ -29,7 +49,8 @@ def create_application() -> FastAPI:
         debug=settings.debug,
         docs_url="/docs",
         redoc_url="/redoc",
-        openapi_url="/openapi.json"
+        openapi_url="/openapi.json",
+        lifespan=lifespan
     )
 
     # CORS Middleware
@@ -54,18 +75,3 @@ def create_application() -> FastAPI:
 
 # Application instance
 app = create_application()
-
-
-@app.on_event("startup")
-async def startup_event():
-    """Execute on application startup."""
-    settings = get_settings()
-    print(f"Starting {settings.app_name} v{settings.app_version}")
-    print(f"Environment: {settings.environment}")
-    print(f"Debug mode: {settings.debug}")
-
-
-@app.on_event("shutdown")
-async def shutdown_event():
-    """Execute on application shutdown."""
-    print("Shutting down application...")
