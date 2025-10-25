@@ -37,7 +37,23 @@
             z-index: 1;
         }
 
-        /* Animation styles will be added in T-ANIM-005 */
+        /* Vertical fall animation - T-ANIM-005 */
+        @keyframes fall {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(calc(100vh + 50px));
+            }
+        }
+
+        .snowflake {
+            animation-name: fall;
+            animation-duration: var(--duration, 10s);
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            animation-delay: var(--delay, 0s);
+        }
     </style>
 </head>
 <body>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test: Vertical Fall Animation</title>
+    <style>
+        /* Copy the styles from snowflakes.html for testing */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #1a2332, #0a0e1a);
+            overflow: hidden;
+            position: relative;
+            font-family: monospace;
+            color: white;
+            padding: 20px;
+        }
+
+        .snowflake {
+            position: absolute;
+            color: #ffffff;
+            font-size: var(--size, 20px);
+            opacity: var(--opacity, 0.8);
+            pointer-events: none;
+            user-select: none;
+        }
+
+        #test-results {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            z-index: 1000;
+            max-width: 400px;
+        }
+
+        .test-pass {
+            color: #4ade80;
+        }
+
+        .test-fail {
+            color: #f87171;
+        }
+
+        .test-item {
+            margin: 5px 0;
+            padding: 5px;
+            border-left: 3px solid transparent;
+        }
+
+        .test-item.pass {
+            border-left-color: #4ade80;
+        }
+
+        .test-item.fail {
+            border-left-color: #f87171;
+        }
+
+        /* Animation styles - WILL BE ADDED */
+        @keyframes fall {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(calc(100vh + 50px));
+            }
+        }
+
+        .snowflake {
+            animation-name: fall;
+            animation-duration: var(--duration, 10s);
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            animation-delay: var(--delay, 0s);
+        }
+    </style>
+</head>
+<body>
+    <div id="test-results">
+        <h2>🧪 Animation Tests (TDD RED Phase)</h2>
+        <div id="test-output"></div>
+    </div>
+
+    <script>
+        const testResults = [];
+
+        function test(name, fn) {
+            try {
+                const result = fn();
+                testResults.push({ name, pass: result === true, message: result === true ? 'PASS' : result });
+            } catch (e) {
+                testResults.push({ name, pass: false, message: e.message });
+            }
+        }
+
+        function displayResults() {
+            const output = document.getElementById('test-output');
+            const passCount = testResults.filter(r => r.pass).length;
+            const failCount = testResults.filter(r => !r.pass).length;
+
+            let html = `<div style="margin: 10px 0; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 4px;">
+                <strong>Results:</strong> ${passCount} passed, ${failCount} failed
+            </div>`;
+
+            testResults.forEach(result => {
+                html += `<div class="test-item ${result.pass ? 'pass' : 'fail'}">
+                    ${result.pass ? '✓' : '✗'} ${result.name}<br>
+                    <small style="opacity: 0.7;">${result.message}</small>
+                </div>`;
+            });
+
+            output.innerHTML = html;
+        }
+
+        // TDD RED PHASE: These tests should FAIL initially, then PASS after implementation
+        document.addEventListener('DOMContentLoaded', () => {
+            // Test 1: @keyframes fall animation exists
+            test('@keyframes fall animation exists', () => {
+                const styleSheets = Array.from(document.styleSheets);
+                let keyframesFound = false;
+
+                styleSheets.forEach(sheet => {
+                    try {
+                        const rules = Array.from(sheet.cssRules || sheet.rules || []);
+                        rules.forEach(rule => {
+                            if (rule.type === CSSRule.KEYFRAMES_RULE && rule.name === 'fall') {
+                                keyframesFound = true;
+                            }
+                        });
+                    } catch (e) {
+                        // Ignore CORS errors for external stylesheets
+                    }
+                });
+
+                return keyframesFound || '@keyframes fall not found';
+            });
+
+            // Test 2: Transform translateY(0) at start
+            test('Transform starts at translateY(0)', () => {
+                const styleSheets = Array.from(document.styleSheets);
+                let foundFromKeyframe = false;
+
+                styleSheets.forEach(sheet => {
+                    try {
+                        const rules = Array.from(sheet.cssRules || sheet.rules || []);
+                        rules.forEach(rule => {
+                            if (rule.type === CSSRule.KEYFRAMES_RULE && rule.name === 'fall') {
+                                const fromRule = Array.from(rule.cssRules).find(r => r.keyText === '0%' || r.keyText === 'from');
+                                if (fromRule && fromRule.style.transform.includes('translateY(0)')) {
+                                    foundFromKeyframe = true;
+                                }
+                            }
+                        });
+                    } catch (e) {
+                        // Ignore errors
+                    }
+                });
+
+                return foundFromKeyframe || 'translateY(0) not found in from keyframe';
+            });
+
+            // Test 3: Transform translateY(100vh + 50px) at end
+            test('Transform ends at translateY(100vh + 50px)', () => {
+                const styleSheets = Array.from(document.styleSheets);
+                let foundToKeyframe = false;
+
+                styleSheets.forEach(sheet => {
+                    try {
+                        const rules = Array.from(sheet.cssRules || sheet.rules || []);
+                        rules.forEach(rule => {
+                            if (rule.type === CSSRule.KEYFRAMES_RULE && rule.name === 'fall') {
+                                const toRule = Array.from(rule.cssRules).find(r => r.keyText === '100%' || r.keyText === 'to');
+                                if (toRule && toRule.style.transform.includes('100vh')) {
+                                    foundToKeyframe = true;
+                                }
+                            }
+                        });
+                    } catch (e) {
+                        // Ignore errors
+                    }
+                });
+
+                return foundToKeyframe || 'translateY(100vh + 50px) not found in to keyframe';
+            });
+
+            // Test 4: Animation applied to snowflake class
+            test('Snowflake class has fall animation applied', () => {
+                const testSnowflake = document.createElement('div');
+                testSnowflake.classList.add('snowflake');
+                testSnowflake.style.setProperty('--duration', '10s');
+                testSnowflake.style.setProperty('--delay', '0s');
+                document.body.appendChild(testSnowflake);
+
+                const computedStyle = window.getComputedStyle(testSnowflake);
+                const hasAnimation = computedStyle.animationName === 'fall';
+
+                document.body.removeChild(testSnowflake);
+
+                return hasAnimation || `Animation name is '${computedStyle.animationName}', expected 'fall'`;
+            });
+
+            // Test 5: Animation uses linear timing function
+            test('Animation uses linear timing function', () => {
+                const testSnowflake = document.createElement('div');
+                testSnowflake.classList.add('snowflake');
+                testSnowflake.style.setProperty('--duration', '10s');
+                document.body.appendChild(testSnowflake);
+
+                const computedStyle = window.getComputedStyle(testSnowflake);
+                const isLinear = computedStyle.animationTimingFunction.includes('linear');
+
+                document.body.removeChild(testSnowflake);
+
+                return isLinear || `Timing function is '${computedStyle.animationTimingFunction}', expected 'linear'`;
+            });
+
+            // Test 6: Animation duration uses --duration variable
+            test('Animation duration uses --duration variable', () => {
+                const testSnowflake = document.createElement('div');
+                testSnowflake.classList.add('snowflake');
+                testSnowflake.style.setProperty('--duration', '5s');
+                document.body.appendChild(testSnowflake);
+
+                const computedStyle = window.getComputedStyle(testSnowflake);
+                const duration = computedStyle.animationDuration;
+
+                document.body.removeChild(testSnowflake);
+
+                return duration === '5s' || `Animation duration is '${duration}', expected '5s'`;
+            });
+
+            // Test 7: Animation is infinite
+            test('Animation iteration count is infinite', () => {
+                const testSnowflake = document.createElement('div');
+                testSnowflake.classList.add('snowflake');
+                testSnowflake.style.setProperty('--duration', '10s');
+                document.body.appendChild(testSnowflake);
+
+                const computedStyle = window.getComputedStyle(testSnowflake);
+                const isInfinite = computedStyle.animationIterationCount === 'infinite';
+
+                document.body.removeChild(testSnowflake);
+
+                return isInfinite || `Iteration count is '${computedStyle.animationIterationCount}', expected 'infinite'`;
+            });
+
+            // Test 8: Animation delay uses --delay variable
+            test('Animation delay uses --delay variable', () => {
+                const testSnowflake = document.createElement('div');
+                testSnowflake.classList.add('snowflake');
+                testSnowflake.style.setProperty('--delay', '2s');
+                document.body.appendChild(testSnowflake);
+
+                const computedStyle = window.getComputedStyle(testSnowflake);
+                const delay = computedStyle.animationDelay;
+
+                document.body.removeChild(testSnowflake);
+
+                return delay === '2s' || `Animation delay is '${delay}', expected '2s'`;
+            });
+
+            // Display results
+            displayResults();
+        });
+    </script>
+</body>
+</html>
