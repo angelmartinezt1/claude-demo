@@ -36,8 +36,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/on-notification-say.sh ",
-            "timeout": 60
+            "command": ".claude/hooks/on-notification-say.sh",
+            "timeout": 1
           }
         ]
       }
