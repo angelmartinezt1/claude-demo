@@ -44,7 +44,56 @@
     <div id="snowflake-container"></div>
 
     <script>
-        // JavaScript will be added in subsequent tasks
+        /**
+         * Creates a snowflake DOM element with random properties
+         * @returns {HTMLElement} The snowflake element configured with random properties
+         */
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.textContent = '❄';
+
+            // Random horizontal position (0-100% viewport width)
+            const randomX = Math.random() * 100;
+            snowflake.style.left = `${randomX}%`;
+
+            // Random size (10-30px)
+            const randomSize = Math.random() * 20 + 10;
+            snowflake.style.setProperty('--size', `${randomSize}px`);
+
+            // Random opacity (0.3-0.9)
+            const randomOpacity = Math.random() * 0.6 + 0.3;
+            snowflake.style.setProperty('--opacity', randomOpacity);
+
+            // Random fall speed (will be used for animation duration, 5-15 seconds)
+            const randomSpeed = Math.random() * 10 + 5;
+            snowflake.style.setProperty('--duration', `${randomSpeed}s`);
+
+            // Random animation delay for staggered start (0-5 seconds)
+            const randomDelay = Math.random() * 5;
+            snowflake.style.setProperty('--delay', `${randomDelay}s`);
+
+            // Append to container
+            const container = document.getElementById('snowflake-container');
+            container.appendChild(snowflake);
+
+            return snowflake;
+        }
+
+        /**
+         * Initializes the snowflake animation by creating multiple snowflakes
+         * @param {number} count - Number of snowflakes to create (default: 75)
+         */
+        function initSnowflakes(count = 75) {
+            for (let i = 0; i < count; i++) {
+                createSnowflake();
+            }
+        }
+
+        // Initialize snowflakes when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            initSnowflakes(75); // Generate 75 snowflakes (within 50-100 range)
+        });
     </script>
 </body>
 </html>

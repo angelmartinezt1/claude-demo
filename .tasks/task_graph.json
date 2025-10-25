@@ -387,7 +387,10 @@
         },
         "max_file_changes": 1,
         "if_exceeds": "STOP and verify scope"
-      }
+      },
+      "status": "completed",
+      "started_at": "2025-10-25T11:56:28.910309",
+      "completed_at": "2025-10-25T11:57:59.906449"
     },
     {
       "id": "T-SNOW-004",
@@ -448,7 +451,10 @@
         },
         "max_file_changes": 1,
         "if_exceeds": "STOP and verify scope"
-      }
+      },
+      "status": "completed",
+      "started_at": "2025-10-25T11:59:11.531901",
+      "completed_at": "2025-10-25T12:00:11.891195"
     },
     {
       "id": "T-ANIM-005",
@@ -518,7 +524,9 @@
         },
         "max_file_changes": 1,
         "if_exceeds": "STOP and verify scope"
-      }
+      },
+      "status": "in_progress",
+      "started_at": "2025-10-25T12:02:44.052506"
     },
     {
       "id": "T-ANIM-006",
