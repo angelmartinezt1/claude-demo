@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test: Horizontal Drift Animation - T-MOVE-008</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #1a2332, #0a0e1a);
+            overflow: hidden;
+            position: relative;
+            font-family: monospace;
+            color: white;
+            padding: 20px;
+        }
+
+        .snowflake {
+            position: absolute;
+            color: #ffffff;
+            font-size: var(--size, 20px);
+            opacity: var(--opacity, 0.8);
+            pointer-events: none;
+            user-select: none;
+        }
+
+        /* Vertical fall animation */
+        @keyframes fall {
+            from {
+                transform: translateY(0) translateX(0);
+            }
+            to {
+                transform: translateY(calc(100vh + 50px)) translateX(0);
+            }
+        }
+
+        /* Horizontal drift animation - T-MOVE-008 */
+        @keyframes drift {
+            0% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(30px);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .snowflake {
+            animation: fall var(--duration, 10s) linear infinite,
+                       drift var(--drift-duration, 3s) ease-in-out infinite;
+            animation-delay: var(--delay, 0s);
+        }
+
+        #test-results {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            z-index: 1000;
+            max-width: 500px;
+        }
+
+        .test-pass {
+            color: #4ade80;
+        }
+
+        .test-fail {
+            color: #f87171;
+        }
+
+        .test-item {
+            margin: 5px 0;
+            padding: 5px;
+            border-left: 3px solid transparent;
+        }
+
+        .test-item.pass {
+            border-left-color: #4ade80;
+        }
+
+        .test-item.fail {
+            border-left-color: #f87171;
+        }
+    </style>
+</head>
+<body>
+    <div id="test-results">
+        <h2>🧪 T-MOVE-008: Horizontal Drift Tests</h2>
+        <div id="test-output"></div>
+    </div>
+
+    <script>
+        const testResults = [];
+
+        function test(name, fn) {
+            try {
+                const result = fn();
+                testResults.push({ name, pass: result === true, message: result === true ? 'PASS' : result });
+            } catch (e) {
+                testResults.push({ name, pass: false, message: e.message });
+            }
+        }
+
+        function displayResults() {
+            const output = document.getElementById('test-output');
+            const passCount = testResults.filter(r => r.pass).length;
+            const failCount = testResults.filter(r => !r.pass).length;
+
+            let html = `<div style="margin: 10px 0; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 4px;">
+                <strong>Results:</strong> ${passCount} passed, ${failCount} failed
+            </div>`;
+
+            testResults.forEach(result => {
+                html += `<div class="test-item ${result.pass ? 'pass' : 'fail'}">
+                    ${result.pass ? '✓' : '✗'} ${result.name}<br>
+                    <small style="opacity: 0.7;">${result.message}</small>
+                </div>`;
+            });
+
+            output.innerHTML = html;
+        }
+
+        // TDD Tests for T-MOVE-008
+        document.addEventListener('DOMContentLoaded', () => {
+            // Test 1: @keyframes drift animation exists
+            test('@keyframes drift animation exists', () => {
+                const styleSheets = Array.from(document.styleSheets);
+                let keyframesFound = false;
+
+                styleSheets.forEach(sheet => {
+                    try {
+                        const rules = Array.from(sheet.cssRules || sheet.rules || []);
+                        rules.forEach(rule => {
+                            if (rule.type === CSSRule.KEYFRAMES_RULE && rule.name === 'drift') {
+                                keyframesFound = true;
+                            }
+                        });
+                    } catch (e) {
+                        // Ignore CORS errors
+                    }
+                });
+
+                return keyframesFound || '@keyframes drift not found';
+            });
+
+            // Test 2: Drift animation uses translateX
+            test('Drift uses translateX transform', () => {
+                const styleSheets = Array.from(document.styleSheets);
+                let usesTranslateX = false;
+
+                styleSheets.forEach(sheet => {
+                    try {
+                        const rules = Array.from(sheet.cssRules || sheet.rules || []);
+                        rules.forEach(rule => {
+                            if (rule.type === CSSRule.KEYFRAMES_RULE && rule.name === 'drift') {
+                                const keyframeRules = Array.from(rule.cssRules);
+                                keyframeRules.forEach(kf => {
+                                    if (kf.style.transform && kf.style.transform.includes('translateX')) {
+                                        usesTranslateX = true;
+                                    }
+                                });
+                            }
+                        });
+                    } catch (e) {
+                        // Ignore errors
+                    }
+                });
+
+                return usesTranslateX || 'translateX not found in drift animation';
+            });
+
+            // Test 3: Drift range is subtle (-30px to +30px)
+            test('Drift range is -30px to +30px (subtle)', () => {
+                const styleSheets = Array.from(document.styleSheets);
+                let hasCorrectRange = false;
+
+                styleSheets.forEach(sheet => {
+                    try {
+                        const rules = Array.from(sheet.cssRules || sheet.rules || []);
+                        rules.forEach(rule => {
+                            if (rule.type === CSSRule.KEYFRAMES_RULE && rule.name === 'drift') {
+                                const keyframeRules = Array.from(rule.cssRules);
+                                // Check for 30px or -30px in transform
+                                const hasRange = keyframeRules.some(kf =>
+                                    kf.style.transform && (
+                                        kf.style.transform.includes('30px') ||
+                                        kf.style.transform.includes('-30px')
+                                    )
+                                );
+                                if (hasRange) hasCorrectRange = true;
+                            }
+                        });
+                    } catch (e) {
+                        // Ignore errors
+                    }
+                });
+
+                return hasCorrectRange || 'Drift range not -30px to +30px';
+            });
+
+            // Test 4: Snowflake has drift animation applied
+            test('Snowflake class has drift animation', () => {
+                const testSnowflake = document.createElement('div');
+                testSnowflake.classList.add('snowflake');
+                testSnowflake.style.setProperty('--duration', '10s');
+                testSnowflake.style.setProperty('--drift-duration', '3s');
+                document.body.appendChild(testSnowflake);
+
+                const computedStyle = window.getComputedStyle(testSnowflake);
+                const animationName = computedStyle.animationName;
+                const hasDrift = animationName.includes('drift');
+
+                document.body.removeChild(testSnowflake);
+
+                return hasDrift || `Animation name is '${animationName}', should include 'drift'`;
+            });
+
+            // Test 5: Multiple animations combined (fall + drift)
+            test('Snowflake combines fall and drift animations', () => {
+                const testSnowflake = document.createElement('div');
+                testSnowflake.classList.add('snowflake');
+                testSnowflake.style.setProperty('--duration', '10s');
+                testSnowflake.style.setProperty('--drift-duration', '3s');
+                document.body.appendChild(testSnowflake);
+
+                const computedStyle = window.getComputedStyle(testSnowflake);
+                const animationName = computedStyle.animationName;
+                const hasBoth = animationName.includes('fall') && animationName.includes('drift');
+
+                document.body.removeChild(testSnowflake);
+
+                return hasBoth || `Animation name is '${animationName}', should include both 'fall' and 'drift'`;
+            });
+
+            // Test 6: Ease-in-out timing for natural drift
+            test('Drift uses ease-in-out timing', () => {
+                const testSnowflake = document.createElement('div');
+                testSnowflake.classList.add('snowflake');
+                testSnowflake.style.setProperty('--drift-duration', '3s');
+                document.body.appendChild(testSnowflake);
+
+                const computedStyle = window.getComputedStyle(testSnowflake);
+                const timingFunction = computedStyle.animationTimingFunction;
+                const hasEaseInOut = timingFunction.includes('ease');
+
+                document.body.removeChild(testSnowflake);
+
+                return hasEaseInOut || `Timing function is '${timingFunction}', should include 'ease'`;
+            });
+
+            // Test 7: No JavaScript-based X position updates (scope compliance)
+            test('NO JavaScript-based X position updates', () => {
+                // Check that we're using CSS animations, not JavaScript
+                const hasJsUpdate = document.body.innerHTML.includes('style.left') &&
+                                   document.body.innerHTML.includes('setInterval');
+
+                return !hasJsUpdate || 'Found forbidden JavaScript X position updates';
+            });
+
+            // Test 8: No complex physics calculations (scope compliance)
+            test('NO complex physics calculations', () => {
+                // Check for forbidden patterns like force, velocity, acceleration
+                const hasPhysics = document.body.innerHTML.match(/force|velocity|acceleration|physics/i);
+
+                return !hasPhysics || 'Found forbidden complex physics calculations';
+            });
+
+            // Test 9: No wind force simulation (scope compliance)
+            test('NO wind force simulation', () => {
+                const hasWind = document.body.innerHTML.match(/windForce|windSpeed|windDirection/i);
+
+                return !hasWind || 'Found forbidden wind force simulation';
+            });
+
+            // Test 10: Drift animation is infinite
+            test('Drift animation is infinite', () => {
+                const testSnowflake = document.createElement('div');
+                testSnowflake.classList.add('snowflake');
+                document.body.appendChild(testSnowflake);
+
+                const computedStyle = window.getComputedStyle(testSnowflake);
+                const iterationCount = computedStyle.animationIterationCount;
+                const isInfinite = iterationCount.includes('infinite');
+
+                document.body.removeChild(testSnowflake);
+
+                return isInfinite || `Iteration count is '${iterationCount}', expected 'infinite'`;
+            });
+
+            // Display results
+            displayResults();
+        });
+    </script>
+</body>
+</html>

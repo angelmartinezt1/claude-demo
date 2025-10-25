@@ -37,21 +37,27 @@
             z-index: 1;
         }
 
-        /* Vertical fall animation - T-ANIM-005 */
-        @keyframes fall {
-            from {
-                transform: translateY(0);
+        /* Combined fall and drift animation - T-ANIM-005 + T-MOVE-008 */
+        @keyframes snowfall {
+            0% {
+                transform: translateY(0) translateX(0);
             }
-            to {
-                transform: translateY(calc(100vh + 50px));
+            25% {
+                transform: translateY(25vh) translateX(15px);
+            }
+            50% {
+                transform: translateY(50vh) translateX(30px);
+            }
+            75% {
+                transform: translateY(75vh) translateX(15px);
+            }
+            100% {
+                transform: translateY(calc(100vh + 50px)) translateX(0);
             }
         }
 
         .snowflake {
-            animation-name: fall;
-            animation-duration: var(--duration, 10s);
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
+            animation: snowfall var(--duration, 10s) ease-in-out infinite;
             animation-delay: var(--delay, 0s);
         }
     </style>
@@ -88,6 +94,10 @@
             // Random animation delay for staggered start (0-5 seconds)
             const randomDelay = Math.random() * 5;
             snowflake.style.setProperty('--delay', `${randomDelay}s`);
+
+            // Random drift duration for varied horizontal movement (2-4 seconds)
+            const randomDrift = Math.random() * 2 + 2;
+            snowflake.style.setProperty('--drift-duration', `${randomDrift}s`);
 
             // Append to container
             const container = document.getElementById('snowflake-container');

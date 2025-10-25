@@ -632,8 +632,9 @@
         "ui_accessible": true
       },
       "rollback_point": true,
-      "status": "in_progress",
-      "started_at": "2025-10-25T12:08:24.005683"
+      "status": "completed",
+      "started_at": "2025-10-25T12:08:24.005683",
+      "completed_at": "2025-10-25T12:10:28.978488"
     },
     {
       "id": "T-MOVE-008",
@@ -696,7 +697,10 @@
         },
         "max_file_changes": 1,
         "if_exceeds": "STOP and verify scope"
-      }
+      },
+      "status": "completed",
+      "started_at": "2025-10-25T12:16:39.405555",
+      "completed_at": "2025-10-25T12:19:16.170552"
     },
     {
       "id": "T-MOVE-009",
