@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snowflakes Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #1a2332, #0a0e1a);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .snowflake {
+            position: absolute;
+            color: #ffffff;
+            font-size: var(--size, 20px);
+            opacity: var(--opacity, 0.8);
+            pointer-events: none;
+            user-select: none;
+        }
+
+        #snowflake-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Animation styles will be added in T-ANIM-005 */
+    </style>
+</head>
+<body>
+    <div id="snowflake-container"></div>
+
+    <script>
+        // JavaScript will be added in subsequent tasks
+    </script>
+</body>
+</html>

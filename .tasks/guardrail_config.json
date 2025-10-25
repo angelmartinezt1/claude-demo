@@ -1,0 +1,349 @@
+{
+  "version": "1.0",
+  "project_name": "snowflakes-animation",
+  "created_date": "2025-10-25",
+  "protection_hooks": {
+    "pre_task": [
+      {
+        "name": "scope_boundary_check",
+        "description": "Verify task aligns with PRD requirements before execution",
+        "checks": [
+          "Confirm task ID exists in task_graph.json",
+          "Verify PRD traceability is documented",
+          "Check must_implement list is non-empty",
+          "Validate must_not_implement constraints are clear"
+        ],
+        "blocking": true
+      },
+      {
+        "name": "dependency_prohibition_check",
+        "description": "Block external dependencies before they are added",
+        "checks": [
+          "No external CSS files (<link rel='stylesheet'>)",
+          "No external JavaScript files (<script src=''>)",
+          "No CDN references",
+          "No npm packages or imports",
+          "No framework boilerplate"
+        ],
+        "blocking": true
+      },
+      {
+        "name": "file_change_limit_check",
+        "description": "Enforce max 1 file change per task",
+        "checks": ["Count target files in task scope", "BLOCK if > 1 file"],
+        "blocking": true
+      }
+    ],
+    "during_task": [
+      {
+        "name": "real_time_scope_monitor",
+        "description": "Detect scope drift during implementation",
+        "monitors": [
+          "File size tracking (must stay < 10KB)",
+          "Line count per file (flag if > 300 lines)",
+          "Complexity indicators (nested loops, deep nesting)",
+          "Forbidden keyword detection"
+        ],
+        "alert_threshold": "Medium",
+        "blocking": false
+      },
+      {
+        "name": "documentation_verification",
+        "description": "Ensure official docs are referenced",
+        "monitors": [
+          "Check URLs against official_docs whitelist",
+          "Verify version numbers are specified",
+          "Confirm publish dates are recent (<6 months preferred)"
+        ],
+        "alert_threshold": "High",
+        "blocking": false
+      }
+    ],
+    "post_task": [
+      {
+        "name": "acceptance_criteria_validation",
+        "description": "Verify task completion against criteria",
+        "checks": [
+          "All must_implement items completed",
+          "No must_not_implement violations",
+          "File size still < 10KB",
+          "No console errors",
+          "Browser compatibility maintained"
+        ],
+        "blocking": true
+      },
+      {
+        "name": "rollback_readiness_check",
+        "description": "Ensure clean rollback point is available",
+        "checks": ["Git commit created", "Validation task passed", "Human review acknowledged"],
+        "blocking": false
+      }
+    ]
+  },
+  "scope_creep_detection": {
+    "max_files_per_task": 1,
+    "max_lines_per_file": 300,
+    "max_functions_per_file": 10,
+    "forbidden_keywords": [
+      "import",
+      "require",
+      "fetch('/api",
+      "XMLHttpRequest",
+      "axios",
+      "jquery",
+      "$(",
+      "React",
+      "Vue",
+      "Angular",
+      "npm",
+      "yarn",
+      "webpack",
+      "backend",
+      "database",
+      "server",
+      "localStorage.setItem",
+      "sessionStorage.setItem",
+      "indexedDB",
+      "audio",
+      "video",
+      "<audio",
+      "<video",
+      "Web Worker",
+      "SharedWorker",
+      "ServiceWorker"
+    ],
+    "forbidden_imports": ["*-beta", "*-alpha", "*-rc", "*-canary", "*-next", "*-experimental"],
+    "allowed_globals": [
+      "window",
+      "document",
+      "console",
+      "Math",
+      "Array",
+      "Object",
+      "String",
+      "Number",
+      "Date",
+      "setTimeout",
+      "setInterval",
+      "requestAnimationFrame",
+      "cancelAnimationFrame"
+    ],
+    "file_size_enforcement": {
+      "max_bytes": 10240,
+      "check_frequency": "post_task",
+      "compression_allowed": false,
+      "warning_threshold": 8192,
+      "critical_threshold": 10240
+    }
+  },
+  "hallucination_prevention": {
+    "official_docs_whitelist": [
+      "developer.mozilla.org",
+      "html.spec.whatwg.org",
+      "www.w3.org",
+      "tc39.es",
+      "caniuse.com",
+      "web.dev",
+      "webkit.org",
+      "chromestatus.com"
+    ],
+    "require_verification_for": [
+      "API method signatures",
+      "CSS property syntax",
+      "HTML element attributes",
+      "Browser compatibility claims",
+      "Performance benchmarks",
+      "Version numbers"
+    ],
+    "forbidden_assumptions": [
+      "Default parameter values",
+      "Implicit browser behaviors",
+      "Undocumented API methods",
+      "Blog post code snippets without verification",
+      "Stack Overflow solutions without testing",
+      "AI-generated code patterns without docs"
+    ],
+    "version_verification_required": true,
+    "source_date_max_age_days": 180
+  },
+  "context_drift_prevention": {
+    "task_boundary_enforcement": {
+      "strict_mode": true,
+      "single_concern_principle": "Each task addresses ONE specific feature or concern",
+      "cross_task_references": "Required for related functionality",
+      "max_task_duration": "30 minutes (guideline)"
+    },
+    "file_change_limits": {
+      "max_files_per_task": 1,
+      "max_lines_added_per_task": 100,
+      "max_lines_modified_per_task": 50,
+      "require_justification_if_exceeded": true
+    },
+    "scope_escalation_triggers": [
+      "Task duration > 30 minutes",
+      "File changes > 1 file",
+      "Lines added > 100",
+      "New dependencies requested",
+      "Feature not in must_implement list"
+    ],
+    "escalation_action": "STOP implementation and create new task for additional scope"
+  },
+  "validation_enforcement": {
+    "mandatory_validation_points": ["After each milestone"],
+    "validation_task_requirements": {
+      "manual_testing_required": true,
+      "automated_tests": false,
+      "browser_compatibility_check": true,
+      "performance_profiling": true,
+      "file_size_verification": true,
+      "console_error_check": true,
+      "responsive_design_test": true
+    },
+    "human_review_frequency": "After each milestone validation",
+    "rollback_on_failure": true,
+    "validation_checklist": [
+      "Open in Chrome, Firefox, Safari, Edge",
+      "Check console for errors",
+      "Verify FPS > 30 in DevTools",
+      "Test at 320px, 768px, 1920px widths",
+      "Confirm file size < 10KB",
+      "Verify no external dependencies loaded",
+      "Test animation smoothness",
+      "Confirm all acceptance criteria met"
+    ]
+  },
+  "dependency_control": {
+    "external_dependencies_allowed": false,
+    "cdn_usage_allowed": false,
+    "npm_packages_allowed": false,
+    "frameworks_allowed": false,
+    "build_tools_allowed": false,
+    "polyfills_required": [],
+    "allowed_web_apis": [
+      "DOM API",
+      "CSS Animations",
+      "CSS Transforms",
+      "CSS Custom Properties",
+      "requestAnimationFrame",
+      "DOMContentLoaded",
+      "window.innerWidth",
+      "window.innerHeight",
+      "Math.random",
+      "Math.floor",
+      "document.createElement",
+      "element.appendChild",
+      "element.classList",
+      "element.style"
+    ],
+    "forbidden_web_apis": [
+      "fetch",
+      "XMLHttpRequest",
+      "WebSocket",
+      "localStorage",
+      "sessionStorage",
+      "indexedDB",
+      "Web Audio API",
+      "Web Worker",
+      "Service Worker",
+      "Geolocation API",
+      "Camera/Microphone APIs"
+    ]
+  },
+  "performance_guardrails": {
+    "fps_minimum": 30,
+    "cpu_usage_maximum": 10,
+    "memory_usage_maximum": 50,
+    "file_size_maximum_kb": 10,
+    "dom_element_maximum": 100,
+    "animation_count_maximum": 3,
+    "enforcement": {
+      "fps_check_frequency": "During validation",
+      "cpu_monitoring": "Chrome DevTools Performance tab",
+      "memory_monitoring": "Optional",
+      "file_size_check": "Post-implementation mandatory"
+    },
+    "optimization_requirements": [
+      "Use CSS animations (not JavaScript setInterval)",
+      "Use transform and opacity for GPU acceleration",
+      "Add will-change: transform to animated elements",
+      "Avoid animating width, height, top, left (causes reflow)",
+      "Minimize DOM manipulation frequency"
+    ]
+  },
+  "browser_compatibility_enforcement": {
+    "target_browsers": {
+      "chrome": "120+",
+      "firefox": "121+",
+      "safari": "17+",
+      "edge": "120+"
+    },
+    "required_features": {
+      "css_animations": {
+        "support": "universal",
+        "fallback_required": false
+      },
+      "css_transforms": {
+        "support": "universal",
+        "fallback_required": false
+      },
+      "es6_javascript": {
+        "support": "universal",
+        "fallback_required": false
+      },
+      "css_custom_properties": {
+        "support": "97%+",
+        "fallback_required": false
+      }
+    },
+    "testing_requirements": {
+      "manual_testing_browsers": ["Chrome", "Firefox", "Safari", "Edge"],
+      "responsive_breakpoints": [320, 768, 1024, 1920],
+      "touch_device_testing": "Optional for MVP"
+    }
+  },
+  "security_guardrails": {
+    "xss_prevention": {
+      "innerHTML_usage": "Forbidden (use textContent)",
+      "eval_usage": "Forbidden",
+      "script_injection_check": true
+    },
+    "content_security_policy": {
+      "recommended": true,
+      "inline_scripts_allowed": true,
+      "inline_styles_allowed": true,
+      "external_resources_allowed": false
+    },
+    "data_handling": {
+      "no_user_data_collection": true,
+      "no_cookies": true,
+      "no_local_storage": true,
+      "no_external_requests": true
+    }
+  },
+  "error_detection_windows": {
+    "per_milestone": {
+      "M1": "4 implementation tasks + 1 validation",
+      "M2": "4 implementation tasks + 1 validation",
+      "M3": "3 implementation tasks + 1 validation"
+    },
+    "early_detection_strategy": "Validation after every 3-5 tasks ensures errors are caught quickly",
+    "rollback_granularity": "Milestone-level (not task-level) to maintain clean state"
+  },
+  "yagni_enforcement": {
+    "principle": "You Aren't Gonna Need It - Only implement what PRD explicitly requires",
+    "prohibited_speculative_features": [
+      "User authentication",
+      "Backend integration",
+      "Database layer",
+      "Complex state management",
+      "Advanced animations beyond PRD",
+      "Mobile app version",
+      "Browser extensions",
+      "Progressive Web App features",
+      "Offline capability",
+      "Analytics/tracking"
+    ],
+    "feature_justification_required": "Every feature must trace to PRD line numbers",
+    "defer_optimization": "Optimize only when performance requirements are at risk"
+  }
+}

@@ -1,0 +1,966 @@
+{
+  "tasks": [
+    {
+      "id": "T-SETUP-001",
+      "title": "Create HTML5 document structure with viewport meta tag",
+      "type": "implementation",
+      "milestone_id": "M1",
+      "dependencies": [],
+      "estimated_effort": "15 minutes",
+      "prd_traceability": {
+        "feature_id": "F4",
+        "prd_lines": [
+          16,
+          80,
+          87
+        ],
+        "original_requirement": "P\u00e1gina HTML \u00fanica y autocontenida / HTML5 / Funcional en pantallas desde 320px"
+      },
+      "scope_boundaries": {
+        "must_implement": [
+          "<!DOCTYPE html> declaration",
+          "Viewport meta tag for responsive design",
+          "UTF-8 charset",
+          "Semantic HTML5 structure"
+        ],
+        "must_not_implement": [
+          "External CSS files",
+          "External JavaScript files",
+          "Framework boilerplate"
+        ],
+        "out_of_scope_check": "BLOCK if external dependencies added"
+      },
+      "documentation_context": {
+        "primary_docs": [
+          {
+            "url": "https://html.spec.whatwg.org/multipage/semantics.html#the-html-element",
+            "version": "Living Standard",
+            "last_verified": "2025-01-25"
+          }
+        ],
+        "version_locks": {},
+        "forbidden_patterns": [
+          "External CSS links",
+          "Script src attributes"
+        ]
+      },
+      "hallucination_guards": {
+        "verify_before_use": [
+          "Viewport meta syntax from MDN",
+          "HTML5 doctype format"
+        ],
+        "forbidden_assumptions": [
+          "No default viewport assumptions",
+          "No guessed meta tags"
+        ]
+      },
+      "context_drift_prevention": {
+        "task_boundaries": "This task ONLY handles HTML structure setup",
+        "refer_to_other_tasks": {
+          "CSS styling": "T-DESIGN-002",
+          "JavaScript logic": "T-SNOW-003"
+        },
+        "max_file_changes": 1,
+        "if_exceeds": "STOP and verify scope"
+      },
+      "status": "completed",
+      "started_at": "2025-10-25T11:40:25.058849",
+      "completed_at": "2025-10-25T11:42:27.555871"
+    },
+    {
+      "id": "T-DESIGN-002",
+      "title": "Implement CSS gradient background and responsive styles",
+      "type": "implementation",
+      "milestone_id": "M1",
+      "dependencies": [
+        "T-SETUP-001"
+      ],
+      "estimated_effort": "20 minutes",
+      "prd_traceability": {
+        "feature_id": "F4",
+        "prd_lines": [
+          63,
+          107,
+          108
+        ],
+        "original_requirement": "Fondo oscuro o gradiente invernal / Gradiente azul oscuro a negro (#1a2332 \u2192 #0a0e1a)"
+      },
+      "scope_boundaries": {
+        "must_implement": [
+          "Gradient background: #1a2332 to #0a0e1a",
+          "Full viewport height (100vh)",
+          "Margin/padding reset",
+          "Overflow: hidden for clean edges"
+        ],
+        "must_not_implement": [
+          "Complex background images",
+          "External CSS files",
+          "CSS frameworks"
+        ],
+        "out_of_scope_check": "BLOCK if not in must_implement"
+      },
+      "documentation_context": {
+        "primary_docs": [
+          {
+            "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/gradient/linear-gradient",
+            "version": "Current",
+            "last_verified": "2025-01-25"
+          }
+        ],
+        "version_locks": {},
+        "forbidden_patterns": [
+          "@import statements",
+          "External font CDNs"
+        ]
+      },
+      "hallucination_guards": {
+        "verify_before_use": [
+          "CSS gradient syntax from MDN",
+          "Viewport units (vh, vw) browser support"
+        ],
+        "forbidden_assumptions": [
+          "No default gradient directions assumed",
+          "No CSS preprocessor syntax"
+        ]
+      },
+      "context_drift_prevention": {
+        "task_boundaries": "This task ONLY handles background and base styling",
+        "refer_to_other_tasks": {
+          "Snowflake styles": "T-DESIGN-003",
+          "Animation styles": "T-ANIM-005"
+        },
+        "max_file_changes": 1,
+        "if_exceeds": "STOP and verify scope"
+      },
+      "status": "completed",
+      "started_at": "2025-10-25T11:44:01.586565",
+      "completed_at": "2025-10-25T11:44:48.844226"
+    },
+    {
+      "id": "T-DESIGN-003",
+      "title": "Create CSS snowflake base class with white color and opacity",
+      "type": "implementation",
+      "milestone_id": "M1",
+      "dependencies": [
+        "T-DESIGN-002"
+      ],
+      "estimated_effort": "15 minutes",
+      "prd_traceability": {
+        "feature_id": "F4",
+        "prd_lines": [
+          64,
+          109,
+          142
+        ],
+        "original_requirement": "Copos de nieve blancos o semi-transparentes / Blanco (#ffffff) con opacidad variable (0.3 - 0.9)"
+      },
+      "scope_boundaries": {
+        "must_implement": [
+          ".snowflake class with position: absolute",
+          "Color: #ffffff",
+          "Opacity range: 0.3 to 0.9 (CSS variables)",
+          "Pointer-events: none (no interaction)",
+          "Font-size or width for size control"
+        ],
+        "must_not_implement": [
+          "Complex SVG snowflakes",
+          "Image-based snowflakes",
+          "External icon libraries"
+        ],
+        "out_of_scope_check": "BLOCK if external resources used"
+      },
+      "documentation_context": {
+        "primary_docs": [
+          {
+            "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/opacity",
+            "version": "Current",
+            "last_verified": "2025-01-25"
+          },
+          {
+            "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties",
+            "version": "Current",
+            "last_verified": "2025-01-25"
+          }
+        ],
+        "version_locks": {},
+        "forbidden_patterns": [
+          "External SVG files",
+          "Icon CDNs"
+        ]
+      },
+      "hallucination_guards": {
+        "verify_before_use": [
+          "CSS custom property syntax",
+          "Opacity property range (0.0 to 1.0)"
+        ],
+        "forbidden_assumptions": [
+          "No assumed snowflake characters without verification",
+          "No default opacity values"
+        ]
+      },
+      "context_drift_prevention": {
+        "task_boundaries": "This task ONLY handles snowflake styling, not animation",
+        "refer_to_other_tasks": {
+          "Snowflake generation": "T-SNOW-003",
+          "Animation styles": "T-ANIM-005"
+        },
+        "max_file_changes": 1,
+        "if_exceeds": "STOP and verify scope"
+      },
+      "status": "completed",
+      "started_at": "2025-10-25T11:45:56.197486",
+      "completed_at": "2025-10-25T11:46:46.812900"
+    },
+    {
+      "id": "T-DESIGN-004",
+      "title": "Add container div for snowflakes in HTML body",
+      "type": "implementation",
+      "milestone_id": "M1",
+      "dependencies": [
+        "T-SETUP-001"
+      ],
+      "estimated_effort": "5 minutes",
+      "prd_traceability": {
+        "feature_id": "F1",
+        "prd_lines": [
+          16,
+          134
+        ],
+        "original_requirement": "P\u00e1gina HTML \u00fanica y autocontenida / Container para copos"
+      },
+      "scope_boundaries": {
+        "must_implement": [
+          "Single <div id='snowflake-container'> in body",
+          "Position: relative or fixed for absolute children",
+          "Full viewport dimensions"
+        ],
+        "must_not_implement": [
+          "Multiple containers",
+          "Complex DOM structure",
+          "Framework components"
+        ],
+        "out_of_scope_check": "BLOCK if more than one container added"
+      },
+      "documentation_context": {
+        "primary_docs": [
+          {
+            "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div",
+            "version": "Current",
+            "last_verified": "2025-01-25"
+          }
+        ],
+        "version_locks": {},
+        "forbidden_patterns": [
+          "Complex component hierarchies"
+        ]
+      },
+      "hallucination_guards": {
+        "verify_before_use": [
+          "HTML div element syntax",
+          "ID attribute format"
+        ],
+        "forbidden_assumptions": [
+          "No assumed container structure",
+          "No default IDs"
+        ]
+      },
+      "context_drift_prevention": {
+        "task_boundaries": "This task ONLY adds container div",
+        "refer_to_other_tasks": {
+          "Snowflake creation": "T-SNOW-003"
+        },
+        "max_file_changes": 1,
+        "if_exceeds": "STOP and verify scope"
+      },
+      "status": "completed",
+      "started_at": "2025-10-25T11:47:48.399010",
+      "completed_at": "2025-10-25T11:48:34.886638"
+    },
+    {
+      "id": "T-VAL-001",
+      "title": "Validate Milestone M1: HTML Structure & Visual Design",
+      "type": "validation",
+      "milestone_id": "M1",
+      "dependencies": [
+        "T-SETUP-001",
+        "T-DESIGN-002",
+        "T-DESIGN-003",
+        "T-DESIGN-004"
+      ],
+      "estimated_effort": "15 minutes",
+      "validation_steps": [
+        "Open snowflakes.html in Chrome browser",
+        "Verify gradient background displays (#1a2332 \u2192 #0a0e1a)",
+        "Verify no console errors in DevTools",
+        "Test responsive viewport at 320px width",
+        "Confirm file size < 10KB",
+        "Verify no external dependencies loaded",
+        "Generate status report",
+        "PAUSE for human review"
+      ],
+      "success_criteria": {
+        "app_launches": true,
+        "no_console_errors": true,
+        "core_features_work": [
+          "Gradient background visible",
+          "Responsive at 320px",
+          "File size under budget"
+        ],
+        "ui_accessible": true
+      },
+      "rollback_point": true,
+      "status": "completed",
+      "started_at": "2025-10-25T11:49:32.185850",
+      "completed_at": "2025-10-25T11:50:59.814134"
+    },
+    {
+      "id": "T-SNOW-003",
+      "title": "Implement JavaScript snowflake generation function with random properties",
+      "type": "implementation",
+      "milestone_id": "M2",
+      "dependencies": [
+        "T-DESIGN-003",
+        "T-DESIGN-004"
+      ],
+      "estimated_effort": "30 minutes",
+      "prd_traceability": {
+        "feature_id": "F1",
+        "prd_lines": [
+          35,
+          36,
+          37
+        ],
+        "original_requirement": "Se generan entre 50-100 copos / posiciones aleatorias / propiedades \u00fanicas (tama\u00f1o, velocidad, opacidad)"
+      },
+      "scope_boundaries": {
+        "must_implement": [
+          "Function createSnowflake() that returns DOM element",
+          "Random horizontal position (0-100% viewport width)",
+          "Random size (10-30px font-size or width)",
+          "Random opacity (0.3-0.9)",
+          "Random fall speed (CSS variable or data attribute)",
+          "Snowflake character: \u2744 (U+2744) or similar",
+          "Append to container"
+        ],
+        "must_not_implement": [
+          "External libraries",
+          "Complex particle physics",
+          "Image-based snowflakes"
+        ],
+        "out_of_scope_check": "BLOCK if external dependencies added"
+      },
+      "documentation_context": {
+        "primary_docs": [
+          {
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random",
+            "version": "Current",
+            "last_verified": "2025-01-25"
+          },
+          {
+            "url": "https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement",
+            "version": "Current",
+            "last_verified": "2025-01-25"
+          }
+        ],
+        "version_locks": {},
+        "forbidden_patterns": [
+          "jQuery",
+          "External particle libraries"
+        ]
+      },
+      "hallucination_guards": {
+        "verify_before_use": [
+          "Math.random() syntax and range",
+          "createElement API",
+          "Unicode snowflake character support"
+        ],
+        "forbidden_assumptions": [
+          "No assumed Math functions without verification",
+          "No guessed DOM API methods"
+        ]
+      },
+      "context_drift_prevention": {
+        "task_boundaries": "This task ONLY handles snowflake creation logic, not animation",
+        "refer_to_other_tasks": {
+          "Animation loop": "T-ANIM-006",
+          "Realistic movement": "T-MOVE-008"
+        },
+        "max_file_changes": 1,
+        "if_exceeds": "STOP and verify scope"
+      }
+    },
+    {
+      "id": "T-SNOW-004",
+      "title": "Create initialization function to generate 50-100 snowflakes on load",
+      "type": "implementation",
+      "milestone_id": "M2",
+      "dependencies": [
+        "T-SNOW-003"
+      ],
+      "estimated_effort": "15 minutes",
+      "prd_traceability": {
+        "feature_id": "F1",
+        "prd_lines": [
+          35
+        ],
+        "original_requirement": "Se generan entre 50-100 copos de nieve"
+      },
+      "scope_boundaries": {
+        "must_implement": [
+          "Function initSnowflakes(count)",
+          "Loop to create 50-100 snowflakes (configurable)",
+          "Call createSnowflake() per iteration",
+          "Execute on DOMContentLoaded or window.onload"
+        ],
+        "must_not_implement": [
+          "Dynamic count based on device (defer optimization)",
+          "Complex initialization logic"
+        ],
+        "out_of_scope_check": "BLOCK if exceeds simple loop + initialization"
+      },
+      "documentation_context": {
+        "primary_docs": [
+          {
+            "url": "https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event",
+            "version": "Current",
+            "last_verified": "2025-01-25"
+          }
+        ],
+        "version_locks": {},
+        "forbidden_patterns": [
+          "Complex event systems"
+        ]
+      },
+      "hallucination_guards": {
+        "verify_before_use": [
+          "DOMContentLoaded event syntax",
+          "For loop or array methods"
+        ],
+        "forbidden_assumptions": [
+          "No assumed event listeners",
+          "No guessed initialization patterns"
+        ]
+      },
+      "context_drift_prevention": {
+        "task_boundaries": "This task ONLY handles initialization loop",
+        "refer_to_other_tasks": {
+          "Snowflake creation": "T-SNOW-003"
+        },
+        "max_file_changes": 1,
+        "if_exceeds": "STOP and verify scope"
+      }
+    },
+    {
+      "id": "T-ANIM-005",
+      "title": "Create CSS @keyframes for vertical falling animation",
+      "type": "implementation",
+      "milestone_id": "M2",
+      "dependencies": [
+        "T-DESIGN-003"
+      ],
+      "estimated_effort": "20 minutes",
+      "prd_traceability": {
+        "feature_id": "F2",
+        "prd_lines": [
+          41,
+          143
+        ],
+        "original_requirement": "Los copos caen de manera fluida / Animaciones @keyframes para ca\u00edda"
+      },
+      "scope_boundaries": {
+        "must_implement": [
+          "@keyframes fall animation",
+          "Transform: translateY(0) to translateY(100vh + 50px)",
+          "Linear or ease timing function",
+          "Animation duration based on speed variable",
+          "Infinite iteration"
+        ],
+        "must_not_implement": [
+          "JavaScript-based position updates (use CSS)",
+          "Complex easing curves"
+        ],
+        "out_of_scope_check": "BLOCK if JavaScript animation used instead of CSS"
+      },
+      "documentation_context": {
+        "primary_docs": [
+          {
+            "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes",
+            "version": "Current",
+            "last_verified": "2025-01-25"
+          },
+          {
+            "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/animation",
+            "version": "Current",
+            "last_verified": "2025-01-25"
+          }
+        ],
+        "version_locks": {},
+        "forbidden_patterns": [
+          "JavaScript setInterval for animation"
+        ]
+      },
+      "hallucination_guards": {
+        "verify_before_use": [
+          "@keyframes syntax",
+          "Transform translateY property",
+          "Animation shorthand syntax"
+        ],
+        "forbidden_assumptions": [
+          "No assumed keyframe percentages",
+          "No guessed animation properties"
+        ]
+      },
+      "context_drift_prevention": {
+        "task_boundaries": "This task ONLY handles vertical fall animation",
+        "refer_to_other_tasks": {
+          "Lateral movement": "T-MOVE-008",
+          "Rotation": "T-MOVE-009"
+        },
+        "max_file_changes": 1,
+        "if_exceeds": "STOP and verify scope"
+      }
+    },
+    {
+      "id": "T-ANIM-006",
+      "title": "Apply CSS animation to snowflakes with variable durations",
+      "type": "implementation",
+      "milestone_id": "M2",
+      "dependencies": [
+        "T-ANIM-005",
+        "T-SNOW-003"
+      ],
+      "estimated_effort": "15 minutes",
+      "prd_traceability": {
+        "feature_id": "F2",
+        "prd_lines": [
+          44,
+          45,
+          46
+        ],
+        "original_requirement": "Animaci\u00f3n m\u00ednimo 30 FPS / velocidades variables / animaci\u00f3n continua loop infinito"
+      },
+      "scope_boundaries": {
+        "must_implement": [
+          "Apply 'fall' animation to .snowflake class",
+          "Use CSS custom property for duration (5-15s range)",
+          "Infinite iteration (animation-iteration-count: infinite)",
+          "Random animation-delay for staggered start"
+        ],
+        "must_not_implement": [
+          "JavaScript-based frame-by-frame updates",
+          "Canvas rendering (CSS is sufficient)"
+        ],
+        "out_of_scope_check": "BLOCK if not using CSS animations"
+      },
+      "documentation_context": {
+        "primary_docs": [
+          {
+            "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/animation-duration",
+            "version": "Current",
+            "last_verified": "2025-01-25"
+          }
+        ],
+        "version_locks": {},
+        "forbidden_patterns": [
+          "requestAnimationFrame for simple falling"
+        ]
+      },
+      "hallucination_guards": {
+        "verify_before_use": [
+          "Animation duration syntax",
+          "Animation-delay property"
+        ],
+        "forbidden_assumptions": [
+          "No assumed default durations",
+          "No guessed timing values"
+        ]
+      },
+      "context_drift_prevention": {
+        "task_boundaries": "This task ONLY applies animation to elements",
+        "refer_to_other_tasks": {
+          "Keyframe definition": "T-ANIM-005"
+        },
+        "max_file_changes": 1,
+        "if_exceeds": "STOP and verify scope"
+      }
+    },
+    {
+      "id": "T-VAL-002",
+      "title": "Validate Milestone M2: Snowflake Generation & Basic Animation",
+      "type": "validation",
+      "milestone_id": "M2",
+      "dependencies": [
+        "T-SNOW-003",
+        "T-SNOW-004",
+        "T-ANIM-005",
+        "T-ANIM-006"
+      ],
+      "estimated_effort": "20 minutes",
+      "validation_steps": [
+        "Open snowflakes.html in Chrome browser",
+        "Verify 50-100 snowflakes are visible",
+        "Confirm snowflakes fall from top to bottom",
+        "Check animation is smooth (no stuttering)",
+        "Verify snowflakes have varied sizes and opacity",
+        "Confirm animation loops infinitely",
+        "Check DevTools for 30+ FPS",
+        "Verify no console errors",
+        "Generate status report",
+        "PAUSE for human review"
+      ],
+      "success_criteria": {
+        "app_launches": true,
+        "no_console_errors": true,
+        "core_features_work": [
+          "50-100 snowflakes visible",
+          "Falling animation works",
+          "Animation is smooth (30+ FPS)",
+          "Infinite loop confirmed"
+        ],
+        "ui_accessible": true
+      },
+      "rollback_point": true
+    },
+    {
+      "id": "T-MOVE-008",
+      "title": "Add CSS @keyframes for horizontal zig-zag drift animation",
+      "type": "implementation",
+      "milestone_id": "M3",
+      "dependencies": [
+        "T-ANIM-005"
+      ],
+      "estimated_effort": "20 minutes",
+      "prd_traceability": {
+        "feature_id": "F3",
+        "prd_lines": [
+          54,
+          143
+        ],
+        "original_requirement": "Movimiento horizontal sutil (zig-zag o drift) / Animaciones @keyframes para rotaci\u00f3n"
+      },
+      "scope_boundaries": {
+        "must_implement": [
+          "@keyframes drift animation",
+          "Transform: translateX with subtle left-right movement (-30px to +30px)",
+          "Ease-in-out timing for natural drift",
+          "Apply to snowflakes with random duration"
+        ],
+        "must_not_implement": [
+          "Complex physics calculations",
+          "Wind force simulation"
+        ],
+        "out_of_scope_check": "BLOCK if complex physics added"
+      },
+      "documentation_context": {
+        "primary_docs": [
+          {
+            "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/translateX",
+            "version": "Current",
+            "last_verified": "2025-01-25"
+          }
+        ],
+        "version_locks": {},
+        "forbidden_patterns": [
+          "JavaScript-based X position updates"
+        ]
+      },
+      "hallucination_guards": {
+        "verify_before_use": [
+          "TranslateX syntax",
+          "Keyframe percentage syntax"
+        ],
+        "forbidden_assumptions": [
+          "No assumed drift patterns",
+          "No guessed easing functions"
+        ]
+      },
+      "context_drift_prevention": {
+        "task_boundaries": "This task ONLY handles horizontal drift",
+        "refer_to_other_tasks": {
+          "Vertical fall": "T-ANIM-005",
+          "Rotation": "T-MOVE-009"
+        },
+        "max_file_changes": 1,
+        "if_exceeds": "STOP and verify scope"
+      }
+    },
+    {
+      "id": "T-MOVE-009",
+      "title": "Add CSS @keyframes for rotation animation during fall",
+      "type": "implementation",
+      "milestone_id": "M3",
+      "dependencies": [
+        "T-ANIM-005"
+      ],
+      "estimated_effort": "15 minutes",
+      "prd_traceability": {
+        "feature_id": "F3",
+        "prd_lines": [
+          55
+        ],
+        "original_requirement": "Incluye rotaci\u00f3n durante la ca\u00edda"
+      },
+      "scope_boundaries": {
+        "must_implement": [
+          "@keyframes rotate animation",
+          "Transform: rotate(0deg) to rotate(360deg)",
+          "Apply to snowflakes with random duration",
+          "Combine with fall and drift animations"
+        ],
+        "must_not_implement": [
+          "3D rotation (keep it simple 2D)"
+        ],
+        "out_of_scope_check": "BLOCK if complex 3D transforms added"
+      },
+      "documentation_context": {
+        "primary_docs": [
+          {
+            "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/rotate",
+            "version": "Current",
+            "last_verified": "2025-01-25"
+          }
+        ],
+        "version_locks": {},
+        "forbidden_patterns": [
+          "3D transforms"
+        ]
+      },
+      "hallucination_guards": {
+        "verify_before_use": [
+          "Rotate transform syntax",
+          "Multiple animation syntax"
+        ],
+        "forbidden_assumptions": [
+          "No assumed rotation speeds",
+          "No guessed rotation directions"
+        ]
+      },
+      "context_drift_prevention": {
+        "task_boundaries": "This task ONLY handles rotation",
+        "refer_to_other_tasks": {
+          "Fall animation": "T-ANIM-005",
+          "Drift animation": "T-MOVE-008"
+        },
+        "max_file_changes": 1,
+        "if_exceeds": "STOP and verify scope"
+      }
+    },
+    {
+      "id": "T-PERF-010",
+      "title": "Optimize for performance: GPU acceleration and file size verification",
+      "type": "implementation",
+      "milestone_id": "M3",
+      "dependencies": [
+        "T-MOVE-008",
+        "T-MOVE-009"
+      ],
+      "estimated_effort": "20 minutes",
+      "prd_traceability": {
+        "feature_id": "F6",
+        "prd_lines": [
+          76,
+          77,
+          78
+        ],
+        "original_requirement": "30+ FPS / CPU < 10% / Tama\u00f1o < 10KB"
+      },
+      "scope_boundaries": {
+        "must_implement": [
+          "Add will-change: transform to .snowflake for GPU acceleration",
+          "Verify file size < 10KB",
+          "Minify CSS/JS if needed (inline comments removal)",
+          "Test FPS in Chrome DevTools Performance tab"
+        ],
+        "must_not_implement": [
+          "External build tools",
+          "Complex optimization scripts",
+          "Dynamic snowflake reduction logic (keep simple)"
+        ],
+        "out_of_scope_check": "BLOCK if external dependencies added"
+      },
+      "documentation_context": {
+        "primary_docs": [
+          {
+            "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/will-change",
+            "version": "Current",
+            "last_verified": "2025-01-25"
+          }
+        ],
+        "version_locks": {},
+        "forbidden_patterns": [
+          "External minification tools",
+          "Build pipelines"
+        ]
+      },
+      "hallucination_guards": {
+        "verify_before_use": [
+          "will-change property syntax",
+          "GPU-accelerated properties (transform, opacity)"
+        ],
+        "forbidden_assumptions": [
+          "No assumed optimization techniques",
+          "No guessed will-change values"
+        ]
+      },
+      "context_drift_prevention": {
+        "task_boundaries": "This task ONLY handles final optimization",
+        "refer_to_other_tasks": {},
+        "max_file_changes": 1,
+        "if_exceeds": "STOP and verify scope"
+      }
+    },
+    {
+      "id": "T-VAL-003",
+      "title": "Validate Milestone M3: Production-Ready Application",
+      "type": "validation",
+      "milestone_id": "M3",
+      "dependencies": [
+        "T-MOVE-008",
+        "T-MOVE-009",
+        "T-PERF-010"
+      ],
+      "estimated_effort": "30 minutes",
+      "validation_steps": [
+        "Open snowflakes.html in Chrome, Firefox, Safari, Edge",
+        "Verify lateral drift visible",
+        "Verify rotation during fall",
+        "Run Chrome DevTools Performance profiling (30+ FPS)",
+        "Check CPU usage < 10%",
+        "Verify file size < 10KB (ls -lh or file properties)",
+        "Test responsive design at 320px, 768px, 1920px",
+        "Verify no console errors across all browsers",
+        "Run Lighthouse audit for performance score",
+        "Confirm all 8 global acceptance criteria met (PRD lines 116-123)",
+        "Generate final status report",
+        "PAUSE for human review"
+      ],
+      "success_criteria": {
+        "app_launches": true,
+        "no_console_errors": true,
+        "core_features_work": [
+          "Snowflakes fall with drift and rotation",
+          "FPS > 30",
+          "CPU < 10%",
+          "File size < 10KB",
+          "Responsive at all breakpoints",
+          "Cross-browser compatible"
+        ],
+        "ui_accessible": true
+      },
+      "rollback_point": true
+    }
+  ],
+  "milestones": [
+    {
+      "id": "M1",
+      "name": "HTML Structure & Visual Design",
+      "description": "Create launchable static HTML page with gradient background and snowflake container. Foundation for all subsequent work.",
+      "tasks": [
+        "T-SETUP-001",
+        "T-DESIGN-002",
+        "T-DESIGN-003",
+        "T-DESIGN-004",
+        "T-VAL-001"
+      ],
+      "launch_ready": true,
+      "validation_criteria": {
+        "app_launches": "Page opens in browser",
+        "no_console_errors": "DevTools console clean",
+        "core_features_work": [
+          "Gradient background visible",
+          "Responsive at 320px",
+          "File size < 10KB"
+        ],
+        "ui_accessible": "Page renders correctly"
+      },
+      "human_review_required": true,
+      "rollback_point": true,
+      "estimated_duration": "1 hour"
+    },
+    {
+      "id": "M2",
+      "name": "Snowflake Generation & Basic Animation",
+      "description": "Generate 50-100 snowflakes with random properties and implement smooth falling animation. Core functionality complete.",
+      "tasks": [
+        "T-SNOW-003",
+        "T-SNOW-004",
+        "T-ANIM-005",
+        "T-ANIM-006",
+        "T-VAL-002"
+      ],
+      "launch_ready": true,
+      "validation_criteria": {
+        "app_launches": "Snowflakes visible and animated",
+        "no_console_errors": "No JavaScript errors",
+        "core_features_work": [
+          "50-100 snowflakes visible",
+          "Falling animation smooth",
+          "30+ FPS confirmed",
+          "Infinite loop works"
+        ],
+        "ui_accessible": "Animation viewable and smooth"
+      },
+      "human_review_required": true,
+      "rollback_point": true,
+      "estimated_duration": "1.5 hours"
+    },
+    {
+      "id": "M3",
+      "name": "Realistic Movement & Performance Optimization",
+      "description": "Add lateral drift and rotation for realistic snow effect. Optimize for performance and cross-browser compatibility. Production-ready.",
+      "tasks": [
+        "T-MOVE-008",
+        "T-MOVE-009",
+        "T-PERF-010",
+        "T-VAL-003"
+      ],
+      "launch_ready": true,
+      "validation_criteria": {
+        "app_launches": "Full animation with realistic movement",
+        "no_console_errors": "Clean across all browsers",
+        "core_features_work": [
+          "Lateral drift visible",
+          "Rotation during fall",
+          "30+ FPS maintained",
+          "CPU < 10%",
+          "File size < 10KB",
+          "Responsive design works",
+          "Cross-browser compatible"
+        ],
+        "ui_accessible": "Production-ready experience"
+      },
+      "human_review_required": true,
+      "rollback_point": true,
+      "estimated_duration": "1 hour"
+    }
+  ],
+  "milestone_strategy": {
+    "max_tasks_per_milestone": 5,
+    "min_tasks_per_milestone": 3,
+    "validation_frequency": "After each milestone",
+    "human_review_points": [
+      "M1-VAL",
+      "M2-VAL",
+      "M3-VAL"
+    ],
+    "rollback_strategy": "Each validation task is a rollback point. If validation fails, revert to previous milestone and iterate."
+  },
+  "scope_enforcement": {
+    "max_tasks_per_feature": 3,
+    "total_tasks": 13,
+    "total_implementation_tasks": 10,
+    "total_validation_tasks": 3,
+    "complexity_score": 18,
+    "complexity_calculation": "Simple project: 10 implementation tasks \u00d7 1.5 (single file complexity) + 3 validation tasks = 18",
+    "anti_creep_rules": [
+      "No external dependencies (enforced in every task)",
+      "Max 1 file change per task (enforced in context_drift_prevention)",
+      "No beta/alpha/RC versions allowed",
+      "File size must stay < 10KB (enforced in T-PERF-010)",
+      "No backend or server-side code (out of scope per PRD)",
+      "No complex interactivity (out of scope per PRD)",
+      "No audio features (out of scope per PRD)",
+      "No frameworks (enforced by dependency prohibition)"
+    ]
+  }
+}

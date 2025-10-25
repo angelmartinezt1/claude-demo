@@ -1,0 +1,36 @@
+{
+  "deferred_features": [],
+  "total_deferred": 0,
+  "estimated_additional_sprints": 0,
+  "rationale": "All 7 features from PRD are included in MVP. This is a lean, single-file project with no scope creep. PRD explicitly defines out-of-scope items (backend, complex interactivity, audio, frameworks) which are correctly excluded. No features were removed from the original requirements.",
+  "future_enhancements_suggested": [
+    {
+      "name": "Dynamic Snowflake Count Based on Device Performance",
+      "description": "Automatically reduce snowflake count on low-end devices using feature detection",
+      "estimated_sprint": "Sprint 2",
+      "dependencies": ["Performance API", "Device capability detection"],
+      "why_not_mvp": "PRD specifies 50-100 snowflakes as fixed requirement. Dynamic adjustment is optimization beyond MVP scope."
+    },
+    {
+      "name": "User Controls (Play/Pause, Speed Adjustment)",
+      "description": "Add UI controls to pause animation or adjust snowfall speed",
+      "estimated_sprint": "Sprint 2",
+      "dependencies": ["F1", "F2"],
+      "why_not_mvp": "PRD section 3.2 explicitly excludes 'Interactividad compleja del usuario' from scope"
+    },
+    {
+      "name": "Sound Effects",
+      "description": "Add optional background music or wind sound effects",
+      "estimated_sprint": "Sprint 3",
+      "dependencies": ["Web Audio API"],
+      "why_not_mvp": "PRD line 25 explicitly states 'Fuera del Alcance: Sonidos o efectos de audio'"
+    },
+    {
+      "name": "Snowflake Accumulation on Bottom",
+      "description": "Snowflakes pile up at bottom of screen instead of disappearing",
+      "estimated_sprint": "Sprint 3",
+      "dependencies": ["Canvas API or complex CSS masking"],
+      "why_not_mvp": "Not mentioned in PRD. Adds complexity without clear user value for MVP."
+    }
+  ]
+}

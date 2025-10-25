@@ -1,0 +1,73 @@
+{
+  "version": "1.0",
+  "today_iso": "2025-10-25",
+  "prd_source": {
+    "filename": "prd/snowflakes-animation.md",
+    "hash": "7e195d057603db22b546f2fe098825020c3c452c4c4eaf9cd5357c0b5a6daad8",
+    "total_lines": 183
+  },
+  "mvp_features": [
+    {
+      "id": "F1",
+      "name": "Snowflake Generation System",
+      "prd_lines": [30, 31, 32, 33, 34, 35, 36, 37],
+      "original_text": "El sistema debe generar múltiples copos de nieve que aparezcan en la parte superior de la pantalla. Se generan entre 50-100 copos de nieve. Los copos aparecen en posiciones aleatorias en el eje horizontal. Cada copo tiene propiedades únicas (tamaño, velocidad, opacidad).",
+      "why_mvp": "Core feature - foundation for entire animation system. Without snowflake generation, there is no product."
+    },
+    {
+      "id": "F2",
+      "name": "Falling Animation",
+      "prd_lines": [39, 40, 41, 42, 43, 44, 45, 46, 47],
+      "original_text": "Los copos de nieve deben caer de manera fluida desde la parte superior hasta la parte inferior de la pantalla. La animación corre a mínimo 30 FPS. Los copos caen a velocidades variables (realismo). La animación es continua (loop infinito). Los copos se regeneran cuando salen de la pantalla.",
+      "why_mvp": "Primary user-facing feature. Falling animation is the main visual effect and defines the user experience."
+    },
+    {
+      "id": "F3",
+      "name": "Realistic Movement (lateral + rotation)",
+      "prd_lines": [49, 50, 51, 52, 53, 54, 55, 56],
+      "original_text": "Los copos deben tener movimiento lateral y rotación para simular el efecto del viento. Los copos tienen movimiento horizontal sutil (zig-zag o drift). Incluye rotación durante la caída. El movimiento es suave y natural.",
+      "why_mvp": "Differentiation feature - transforms basic falling into realistic snow effect. Medium priority but essential for 'realista' requirement."
+    },
+    {
+      "id": "F4",
+      "name": "Visual Design (gradient background)",
+      "prd_lines": [58, 59, 60, 61, 62, 63, 64, 65],
+      "original_text": "La página debe tener un diseño visual atractivo que complemente la animación. Fondo oscuro o gradiente invernal. Copos de nieve blancos o semi-transparentes. Diseño limpio y minimalista.",
+      "why_mvp": "Essential visual context. Snowflakes need contrasting background to be visible. High priority per PRD."
+    },
+    {
+      "id": "F5",
+      "name": "Browser Compatibility",
+      "prd_lines": [69, 70, 71, 72, 73],
+      "original_text": "Chrome (últimas 2 versiones), Firefox (últimas 2 versiones), Safari (últimas 2 versiones), Edge (últimas 2 versiones).",
+      "why_mvp": "Non-negotiable requirement. Must work across all specified browsers for production readiness."
+    },
+    {
+      "id": "F6",
+      "name": "Performance Optimization",
+      "prd_lines": [75, 76, 77, 78],
+      "original_text": "La animación debe mantener 30+ FPS en dispositivos de gama media. El uso de CPU debe ser mínimo (<10% en idle). Tamaño del archivo HTML total < 10KB.",
+      "why_mvp": "Performance constraints are requirements, not optional features. Built into implementation approach via CSS animations and GPU acceleration."
+    },
+    {
+      "id": "F7",
+      "name": "Responsive Design",
+      "prd_lines": [86, 87, 88, 89],
+      "original_text": "Funcional en pantallas desde 320px de ancho. Adaptación automática al tamaño de viewport. Touch-friendly (móviles y tablets).",
+      "why_mvp": "High priority per PRD. Mobile-first is standard practice in 2025. Must work on all screen sizes."
+    }
+  ],
+  "protection_metrics": {
+    "features_deferred": 0,
+    "features_in_mvp": 7,
+    "scope_reduction": "0%",
+    "rationale": "All PRD requirements are essential for MVP. Project is already minimal scope (single-file animation). No feature creep detected.",
+    "documentation_age": {
+      "avg_days": 15,
+      "oldest_days": 30,
+      "needs_refresh": [],
+      "all_sources_current": true,
+      "verification_note": "All sources verified from January 2025 or Q4 2024 (within 6-month window)"
+    }
+  }
+}

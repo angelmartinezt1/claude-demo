@@ -1,0 +1,136 @@
+{
+  "agent_id": "SA-1-LANG",
+  "research_date": "2025-10-25",
+  "recommendations": [
+    "CSS3 Animations and Transitions (primary choice for simple animations)",
+    "Web Animations API (Element.animate() - modern standard)",
+    "JavaScript ES6+ with requestAnimationFrame (for complex, interactive animations)",
+    "HTML5 Canvas with requestAnimationFrame (for games and scene orchestration)",
+    "Transform and opacity properties (GPU-accelerated, avoid layout reflows)"
+  ],
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/CSS_JavaScript_animation_performance",
+      "published": "2025-07-17",
+      "title": "CSS and JavaScript animation performance - MDN",
+      "authority": "Mozilla Developer Network (Official)"
+    },
+    {
+      "url": "https://web.dev/articles/css-vs-javascript",
+      "published": "Not specified",
+      "title": "CSS versus JavaScript animations - web.dev",
+      "authority": "Google Chrome Developers (Official)"
+    },
+    {
+      "url": "https://www.w3.org/TR/css-animations-1/",
+      "published": "2023-03-02",
+      "title": "CSS Animations Level 1 - W3C Working Draft",
+      "authority": "W3C (Official Specification)"
+    },
+    {
+      "url": "https://www.w3.org/TR/css-2025/",
+      "published": "2025",
+      "title": "CSS Snapshot 2025",
+      "authority": "W3C (Official Specification)"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API",
+      "published": "2025-04-03",
+      "title": "Web Animations API - MDN",
+      "authority": "Mozilla Developer Network (Official)"
+    },
+    {
+      "url": "https://webkit.org/blog/10266/web-animations-in-safari-13-1/",
+      "published": "2020-03-24",
+      "title": "Web Animations in Safari 13.1 - WebKit Blog",
+      "authority": "Apple WebKit (Official)"
+    },
+    {
+      "url": "https://developer.chrome.com/blog/web-animations-resources/",
+      "published": "2015-10-26",
+      "title": "Web animations resources - Chrome for Developers",
+      "authority": "Google Chrome Developers (Official)"
+    },
+    {
+      "url": "https://drafts.csswg.org/web-animations/",
+      "published": "Draft (Ongoing)",
+      "title": "Web Animations Specification - CSSWG",
+      "authority": "W3C CSS Working Group (Official)"
+    }
+  ],
+  "browser_support": {
+    "css_animations": {
+      "chrome": "Full support (84+)",
+      "firefox": "Full support (75+)",
+      "safari": "Full support (13.1+)",
+      "edge": "Full support (84+)",
+      "opera": "Full support (71+)",
+      "mobile": "Full support on iOS Safari (13.4+), Android Browser (97+)"
+    },
+    "web_animations_api": {
+      "chrome": "Full support (39+)",
+      "firefox": "Full support (75+)",
+      "safari": "Full support (13.1+)",
+      "edge": "Full support (84+)",
+      "opera": "Full support",
+      "mobile": "Full support on iOS Safari (13.4+), Chrome/Firefox for Android",
+      "compatibility_score": "92/100",
+      "availability_date": "March 2020 (cross-browser)"
+    },
+    "requestAnimationFrame": {
+      "support": "Universal support in all modern browsers",
+      "note": "Significantly more efficient than setTimeout/setInterval"
+    }
+  },
+  "warnings": [
+    "Browser compatibility: Internet Explorer has no support for Web Animations API. Use polyfill for legacy browser support.",
+    "Performance: Avoid animating properties that trigger layout reflows (width, height, top, left, etc.). Use transform and opacity instead.",
+    "Mobile considerations: CSS animations offer better battery life and performance on mobile devices due to GPU acceleration.",
+    "Off-Main-Thread Animation (OMTA): Only works with transform and opacity properties. Enabled by default in Firefox Nightly/Developer Edition.",
+    "Frame budget: Target 60fps means 16.7ms per frame. Complex animations may need optimization or fallback strategies.",
+    "CSS vs JavaScript trade-off: CSS animations run on compositor thread (better performance), but JavaScript offers more control for complex interactions.",
+    "Vendor prefixes: Older browsers may require -webkit- prefixes for CSS animations, though modern browsers no longer need them.",
+    "requestAnimationFrame: Stops when tab is inactive (good for performance), but may affect multi-tab scenarios.",
+    "SEO and accessibility: Ensure animations don't block critical rendering paths. Lazy-load offscreen animations.",
+    "Safari-specific: Use webkit translation transforms for hardware acceleration. Recent Safari 19 introduces scroll-driven animations."
+  ],
+  "best_practices_2025": [
+    "Always try CSS animations first for simple state transitions (Mozilla/Chrome recommendation)",
+    "Use Web Animations API (Element.animate()) for complex JavaScript-driven animations",
+    "Animate only transform and opacity properties for GPU acceleration",
+    "Use requestAnimationFrame for custom JavaScript animations, never setTimeout/setInterval",
+    "Implement Off-Main-Thread Animation (OMTA) for best performance in Firefox",
+    "Test with Chrome DevTools Performance tab and Lighthouse audits",
+    "Explicitly define from (0%) and to (100%) keyframe values for optimal Gecko engine performance",
+    "Listen to transitionend/animationend events for coordinating with application logic",
+    "Use micro-interactions for better UX (trend in 2025)",
+    "Implement scroll-driven animations using native CSS (Safari 19+) instead of JavaScript",
+    "Consider view transitions API for smooth page transitions without JavaScript (Safari 18.2+, Chrome 140+)"
+  ],
+  "technology_stack_recommendation": {
+    "simple_ui_transitions": "CSS3 Animations + Transitions",
+    "interactive_animations": "Web Animations API (Element.animate())",
+    "complex_timelines": "JavaScript libraries (GSAP, Anime.js) or Web Animations API",
+    "game_development": "requestAnimationFrame + HTML5 Canvas",
+    "react_applications": "Framer Motion or Motion One",
+    "scroll_animations": "Native CSS scroll-driven animations (Safari 19+, Chrome) or Intersection Observer API",
+    "vector_animations": "Lottie (After Effects integration)"
+  },
+  "emerging_trends_2025": [
+    "Scroll-driven animations becoming native in CSS (Safari 19, Chrome)",
+    "View transitions API for SPA-like page transitions without JavaScript",
+    "Micro-interactions for improved UX and instant feedback",
+    "GPU-accelerated animations as standard practice",
+    "Motion One and Web Animations API replacing jQuery animations",
+    "Physics-based animations via Framer Motion for React",
+    "CSS offset-position and offset-path for motion along paths",
+    "transition-behavior property for advanced animation control"
+  ],
+  "performance_metrics": {
+    "target_fps": 60,
+    "frame_budget_ms": 16.7,
+    "css_animation_performance": "Nearly identical to JavaScript in most cases",
+    "gpu_acceleration": "CSS transform and opacity only",
+    "main_thread_blocking": "Avoid - use OMTA or Web Animations API"
+  }
+}
