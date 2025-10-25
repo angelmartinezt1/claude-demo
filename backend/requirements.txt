@@ -1,10 +1,10 @@
 # Web Framework
-fastapi==0.115.0
-uvicorn[standard]==0.32.0
+fastapi==0.119.1
+uvicorn[standard]==0.38.0
 
 # Data Validation
-pydantic==2.9.2
-pydantic-settings==2.6.1
+pydantic==2.12.3
+pydantic-settings==2.11.0
 
 # Environment Management
-python-dotenv==1.0.1
+python-dotenv==1.1.1
