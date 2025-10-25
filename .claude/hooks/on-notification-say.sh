@@ -4,5 +4,5 @@ set -euo pipefail
 
 payload="$(cat)"
 message=$(echo "$payload" | jq -r '.message')
-# Speak it (absolute path to avoid PATH issues)
-/usr/bin/say -v Kate "$message"
+# Speak it in background (non-blocking)
+/usr/bin/say -v Samantha "$message" &
