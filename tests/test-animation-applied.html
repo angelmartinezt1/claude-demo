@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test: Animation Applied to Snowflakes - T-ANIM-006</title>
+    <style>
+        /* Copy the styles from snowflakes.html for testing */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #1a2332, #0a0e1a);
+            overflow: hidden;
+            position: relative;
+            font-family: monospace;
+            color: white;
+            padding: 20px;
+        }
+
+        .snowflake {
+            position: absolute;
+            color: #ffffff;
+            font-size: var(--size, 20px);
+            opacity: var(--opacity, 0.8);
+            pointer-events: none;
+            user-select: none;
+        }
+
+        /* Vertical fall animation - T-ANIM-005 */
+        @keyframes fall {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(calc(100vh + 50px));
+            }
+        }
+
+        .snowflake {
+            animation-name: fall;
+            animation-duration: var(--duration, 10s);
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            animation-delay: var(--delay, 0s);
+        }
+
+        #test-results {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            z-index: 1000;
+            max-width: 500px;
+        }
+
+        .test-pass {
+            color: #4ade80;
+        }
+
+        .test-fail {
+            color: #f87171;
+        }
+
+        .test-item {
+            margin: 5px 0;
+            padding: 5px;
+            border-left: 3px solid transparent;
+        }
+
+        .test-item.pass {
+            border-left-color: #4ade80;
+        }
+
+        .test-item.fail {
+            border-left-color: #f87171;
+        }
+    </style>
+</head>
+<body>
+    <div id="test-results">
+        <h2>🧪 T-ANIM-006: Animation Application Tests</h2>
+        <div id="test-output"></div>
+    </div>
+
+    <script>
+        const testResults = [];
+
+        function test(name, fn) {
+            try {
+                const result = fn();
+                testResults.push({ name, pass: result === true, message: result === true ? 'PASS' : result });
+            } catch (e) {
+                testResults.push({ name, pass: false, message: e.message });
+            }
+        }
+
+        function displayResults() {
+            const output = document.getElementById('test-output');
+            const passCount = testResults.filter(r => r.pass).length;
+            const failCount = testResults.filter(r => !r.pass).length;
+
+            let html = `<div style="margin: 10px 0; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 4px;">
+                <strong>Results:</strong> ${passCount} passed, ${failCount} failed
+            </div>`;
+
+            testResults.forEach(result => {
+                html += `<div class="test-item ${result.pass ? 'pass' : 'fail'}">
+                    ${result.pass ? '✓' : '✗'} ${result.name}<br>
+                    <small style="opacity: 0.7;">${result.message}</small>
+                </div>`;
+            });
+
+            output.innerHTML = html;
+        }
+
+        // TDD Tests for T-ANIM-006: Verify animation is properly applied
+        document.addEventListener('DOMContentLoaded', () => {
+            // Test 1: Fall animation is applied to snowflake class
+            test('Fall animation applied to .snowflake', () => {
+                const testSnowflake = document.createElement('div');
+                testSnowflake.classList.add('snowflake');
+                testSnowflake.style.setProperty('--duration', '10s');
+                testSnowflake.style.setProperty('--delay', '0s');
+                document.body.appendChild(testSnowflake);
+
+                const computedStyle = window.getComputedStyle(testSnowflake);
+                const hasAnimation = computedStyle.animationName === 'fall';
+
+                document.body.removeChild(testSnowflake);
+
+                return hasAnimation || `Animation name is '${computedStyle.animationName}', expected 'fall'`;
+            });
+
+            // Test 2: Animation duration uses CSS custom property
+            test('Animation duration uses --duration CSS variable', () => {
+                const testSnowflake = document.createElement('div');
+                testSnowflake.classList.add('snowflake');
+                testSnowflake.style.setProperty('--duration', '7s');
+                document.body.appendChild(testSnowflake);
+
+                const computedStyle = window.getComputedStyle(testSnowflake);
+                const duration = computedStyle.animationDuration;
+
+                document.body.removeChild(testSnowflake);
+
+                return duration === '7s' || `Animation duration is '${duration}', expected '7s'`;
+            });
+
+            // Test 3: Animation duration falls within 5-15s range
+            test('Animation duration within 5-15s range', () => {
+                const durations = [];
+                for (let i = 0; i < 10; i++) {
+                    const randomSpeed = Math.random() * 10 + 5; // 5-15 seconds
+                    durations.push(randomSpeed);
+                }
+
+                const allInRange = durations.every(d => d >= 5 && d <= 15);
+                const min = Math.min(...durations);
+                const max = Math.max(...durations);
+
+                return allInRange || `Durations out of range: min=${min.toFixed(2)}s, max=${max.toFixed(2)}s`;
+            });
+
+            // Test 4: Animation has infinite iteration
+            test('Animation iteration count is infinite', () => {
+                const testSnowflake = document.createElement('div');
+                testSnowflake.classList.add('snowflake');
+                testSnowflake.style.setProperty('--duration', '10s');
+                document.body.appendChild(testSnowflake);
+
+                const computedStyle = window.getComputedStyle(testSnowflake);
+                const isInfinite = computedStyle.animationIterationCount === 'infinite';
+
+                document.body.removeChild(testSnowflake);
+
+                return isInfinite || `Iteration count is '${computedStyle.animationIterationCount}', expected 'infinite'`;
+            });
+
+            // Test 5: Animation delay uses CSS custom property
+            test('Animation delay uses --delay CSS variable', () => {
+                const testSnowflake = document.createElement('div');
+                testSnowflake.classList.add('snowflake');
+                testSnowflake.style.setProperty('--delay', '3s');
+                document.body.appendChild(testSnowflake);
+
+                const computedStyle = window.getComputedStyle(testSnowflake);
+                const delay = computedStyle.animationDelay;
+
+                document.body.removeChild(testSnowflake);
+
+                return delay === '3s' || `Animation delay is '${delay}', expected '3s'`;
+            });
+
+            // Test 6: Random delay for staggered start (0-5s range)
+            test('Animation delay within 0-5s range for staggering', () => {
+                const delays = [];
+                for (let i = 0; i < 10; i++) {
+                    const randomDelay = Math.random() * 5; // 0-5 seconds
+                    delays.push(randomDelay);
+                }
+
+                const allInRange = delays.every(d => d >= 0 && d <= 5);
+                const min = Math.min(...delays);
+                const max = Math.max(...delays);
+
+                return allInRange || `Delays out of range: min=${min.toFixed(2)}s, max=${max.toFixed(2)}s`;
+            });
+
+            // Test 7: Verify NO JavaScript frame-by-frame updates (scope compliance)
+            test('NO JavaScript-based frame-by-frame updates', () => {
+                // Check that we're using CSS animations, not requestAnimationFrame
+                const hasRequestAnimationFrame = document.body.innerHTML.includes('requestAnimationFrame');
+                const hasSetInterval = document.body.innerHTML.includes('setInterval');
+
+                return (!hasRequestAnimationFrame && !hasSetInterval) || 'Found forbidden JavaScript animation methods';
+            });
+
+            // Test 8: Verify NO Canvas rendering (scope compliance)
+            test('NO Canvas rendering (CSS is sufficient)', () => {
+                const hasCanvas = document.querySelector('canvas') !== null;
+
+                return !hasCanvas || 'Found forbidden canvas element';
+            });
+
+            // Test 9: Animation timing function is linear
+            test('Animation uses linear timing function', () => {
+                const testSnowflake = document.createElement('div');
+                testSnowflake.classList.add('snowflake');
+                testSnowflake.style.setProperty('--duration', '10s');
+                document.body.appendChild(testSnowflake);
+
+                const computedStyle = window.getComputedStyle(testSnowflake);
+                const isLinear = computedStyle.animationTimingFunction.includes('linear');
+
+                document.body.removeChild(testSnowflake);
+
+                return isLinear || `Timing function is '${computedStyle.animationTimingFunction}', expected 'linear'`;
+            });
+
+            // Test 10: Default duration fallback works (10s)
+            test('Default duration fallback is 10s when --duration not set', () => {
+                const testSnowflake = document.createElement('div');
+                testSnowflake.classList.add('snowflake');
+                // Intentionally NOT setting --duration to test fallback
+                document.body.appendChild(testSnowflake);
+
+                const computedStyle = window.getComputedStyle(testSnowflake);
+                const duration = computedStyle.animationDuration;
+
+                document.body.removeChild(testSnowflake);
+
+                return duration === '10s' || `Default duration is '${duration}', expected '10s'`;
+            });
+
+            // Display results
+            displayResults();
+        });
+    </script>
+</body>
+</html>

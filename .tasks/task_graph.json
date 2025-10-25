@@ -591,7 +591,10 @@
         },
         "max_file_changes": 1,
         "if_exceeds": "STOP and verify scope"
-      }
+      },
+      "status": "completed",
+      "started_at": "2025-10-25T12:05:36.461671",
+      "completed_at": "2025-10-25T12:07:07.468505"
     },
     {
       "id": "T-VAL-002",
@@ -628,7 +631,9 @@
         ],
         "ui_accessible": true
       },
-      "rollback_point": true
+      "rollback_point": true,
+      "status": "in_progress",
+      "started_at": "2025-10-25T12:08:24.005683"
     },
     {
       "id": "T-MOVE-008",
